@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <com.shubhamgupta16.materialkit.PageView
+        android:layout_width="match_parent"
+        app:toolbarTitlePosition="center"
+        app:toolbarTitle="Toolbar Title"
+        app:toolbarHeight="55dp"
+        app:toolbarTitleSize="22sp"
+        app:toolbarNavSize="30dp"
+        app:toolbarTitleFont="@font/tjb"
+        app:toolbarTitleColor="@color/white"
+        app:toolbarNavTint="@color/white"
+        app:toolbarNavClick="none"
+        app:toolbarNavIcon="@drawable/ic_baseline_arrow_back_24"
+        app:toolbarBackground="@color/purple_500"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shubham"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gupta"/>
+
+    </com.shubhamgupta16.materialkit.PageView>
+
+</RelativeLayout>
