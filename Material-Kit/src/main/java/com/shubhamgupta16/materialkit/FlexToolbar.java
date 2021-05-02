@@ -2,14 +2,17 @@ package com.shubhamgupta16.materialkit;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
@@ -39,38 +42,45 @@ class FlexToolbar extends RelativeLayout {
         actionBarSize = outValue.resourceId;
 
         float oneDP = UtilsKit.dpToPx(1, getContext());
-        int navSize = (int) (oneDP * 26);
+        int navSize = (int) (oneDP * 30);
 
         Toolbar toolbar = new Toolbar(getContext());
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, actionBarSize);
         params.addRule(CENTER_VERTICAL);
         toolbar.setLayoutParams(params);
-        toolbar.setElevation(0);
         addView(toolbar);
+
         nav = new ImageView(getContext());
         LayoutParams navParams = new LayoutParams(navSize, navSize);
         navParams.setMarginStart((int) (oneDP * 15));
+        navParams.setMarginEnd((int) (oneDP * 10));
+        int p = (int) (oneDP * 3);
+        nav.setPadding(p,p,p,p);
         navParams.addRule(CENTER_VERTICAL);
         nav.setLayoutParams(navParams);
-        addView(nav);
         nav.setId(android.R.id.icon2);
+        addView(nav);
+
+
         toolbarTitle = new TextView(getContext());
         LayoutParams titleParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         titleParams.setMarginStart((int) (oneDP * 15));
         titleParams.addRule(END_OF, nav.getId());
-        titleParams.addRule(CENTER_IN_PARENT);
+        titleParams.addRule(CENTER_VERTICAL);
         toolbarTitle.setLayoutParams(titleParams);
         toolbarTitle.setTypeface(Typeface.DEFAULT_BOLD);
         addView(toolbarTitle);
-        setElevation(0);
     }
 
     public void setToolbarTitlePosition(int position) {
         LayoutParams p = (LayoutParams) toolbarTitle.getLayoutParams();
-        if (position == MaterialConstants.TOOLBAR_TITLE_CENTER)
+        if (position == MaterialConstants.TOOLBAR_TITLE_CENTER) {
             p.removeRule(END_OF);
-        else
+            p.addRule(CENTER_HORIZONTAL);
+        } else {
             p.addRule(END_OF, nav.getId());
+            p.removeRule(CENTER_HORIZONTAL);
+        }
         toolbarTitle.setLayoutParams(p);
     }
 
@@ -94,6 +104,11 @@ class FlexToolbar extends RelativeLayout {
     public void setToolbarNavSize(int size) {
         nav.getLayoutParams().height = size;
         nav.getLayoutParams().width = size;
+    }
+
+    public void setToolbarNavPadding(int padding) {
+        nav.setPadding(padding, padding, padding, padding);
+
     }
 
     public void setToolbarTitleSize(int unit, float size) {
@@ -121,5 +136,6 @@ class FlexToolbar extends RelativeLayout {
     public void setToolbarTitle(String title) {
         toolbarTitle.setText(title);
     }
+
 
 }

@@ -2,20 +2,22 @@
 <resources>
 
     <declare-styleable name="PageView">
-        <attr name="toolbarTitle" format="string"/>
-        <attr name="toolbarNavIcon" format="reference"/>
-        <attr name="toolbarNavBackground" format="reference"/>
         <attr name="toolbarBackground" format="reference"/>
         <attr name="toolbarHeight" format="dimension"/>
-        <attr name="toolbarNavSize" format="dimension"/>
+        <attr name="toolbarTitle" format="string"/>
         <attr name="toolbarTitleFont" format="reference"/>
         <attr name="toolbarTitleSize" format="dimension"/>
         <attr name="toolbarTitleColor" format="color"/>
-        <attr name="toolbarNavTint" format="color"/>
         <attr name="toolbarTitlePosition" format="enum">
             <enum name="start" value="0"/>
             <enum name="center" value="1"/>
         </attr>
+        <attr name="toolbarNavIcon" format="reference"/>
+        <attr name="toolbarNavBackground" format="reference"/>
+        <attr name="toolbarNavSize" format="dimension"/>
+        <attr name="toolbarNavPadding" format="dimension"/>
+        <attr name="toolbarNavTint" format="color"/>
+
         <attr name="toolbarNavClick" format="enum">
             <enum name="finish" value="1"/>
             <enum name="none" value="0"/>

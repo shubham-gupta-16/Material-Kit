@@ -35,7 +35,9 @@ public class PageView extends LinearLayout {
 
     private void _setupLinearLayout() {
         flexToolbar = new FlexToolbar(getContext());
-        flexToolbar.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        TypedValue outValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, outValue, true);
+        flexToolbar.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(outValue.resourceId)));
         flexToolbar.setId(android.R.id.navigationBarBackground);
 
         linearLayout = new LinearLayout(getContext());
@@ -65,7 +67,9 @@ public class PageView extends LinearLayout {
         setToolbarTitleFont(a.getResourceId(R.styleable.PageView_toolbarTitleFont, 0));
         if (a.hasValue(R.styleable.PageView_toolbarNavSize))
             setToolbarNavSize(a.getDimensionPixelSize(R.styleable.PageView_toolbarNavSize, 0));
-        setToolbarTitleSize(TypedValue.COMPLEX_UNIT_PX, a.getDimension(R.styleable.PageView_toolbarTitleSize, 20));
+        if (a.hasValue(R.styleable.PageView_toolbarNavPadding))
+            setToolbarNavPadding(a.getDimensionPixelSize(R.styleable.PageView_toolbarNavPadding, 0));
+        setToolbarTitleSize(TypedValue.COMPLEX_UNIT_PX, a.getDimension(R.styleable.PageView_toolbarTitleSize, oneDP * 20));
 
         setToolbarTitle(a.getString(R.styleable.PageView_toolbarTitle));
         setToolbarNavIcon(a.getResourceId(R.styleable.PageView_toolbarNavIcon, android.R.color.transparent));
@@ -86,25 +90,26 @@ public class PageView extends LinearLayout {
             getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, outValue, true);
             setToolbarNavBackground(outValue.resourceId);
         }
-        if (a.hasValue(R.styleable.PageView_toolbarShadowColor)) {
-            int color = a.getColor(R.styleable.PageView_toolbarShadowColor, Color.TRANSPARENT);
+            int color = a.getColor(R.styleable.PageView_toolbarShadowColor, 0x10000000);
             View view = new View(getContext());
             RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    a.getDimensionPixelSize(R.styleable.PageView_toolbarShadowHeight, (int) (oneDP * 15)));
+                    a.getDimensionPixelSize(R.styleable.PageView_toolbarShadowHeight, (int) (oneDP * 10)));
             p.addRule(RelativeLayout.BELOW, flexToolbar.getId());
             view.setLayoutParams(p);
 
             GradientDrawable gd = new GradientDrawable(
                     GradientDrawable.Orientation.TOP_BOTTOM,
-                    new int[]{color, 0x00131313});
+                    new int[]{color, 0x00FFFFFF});
             gd.setCornerRadius(0f);
 
             view.setBackground(gd);
             layout.addView(view);
 
-        }
-
         a.recycle();
+    }
+
+    private void setToolbarNavPadding(int padding) {
+        flexToolbar.setToolbarNavPadding(padding);
     }
 
     @Override
