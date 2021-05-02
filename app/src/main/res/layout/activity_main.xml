@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
 
-    <!--<com.shubhamgupta16.materialkit.PageView
+    <com.shubhamgupta16.materialkit.PageView
         android:layout_width="match_parent"
         app:toolbarTitlePosition="center"
         app:toolbarTitle="Toolbar Title"
@@ -32,6 +32,6 @@
             android:layout_height="wrap_content"
             android:text="Gupta"/>
 
-    </com.shubhamgupta16.materialkit.PageView>-->
+    </com.shubhamgupta16.materialkit.PageView>
 
 </RelativeLayout>
