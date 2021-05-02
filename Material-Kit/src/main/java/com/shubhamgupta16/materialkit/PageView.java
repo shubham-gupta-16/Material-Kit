@@ -1,30 +1,21 @@
 package com.shubhamgupta16.materialkit;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.media.Image;
-import android.os.Handler;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.FontRes;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
 
-public class PageView extends RelativeLayout {
+public class PageView extends LinearLayout {
 
 
     public PageView(Context context) {
@@ -39,80 +30,50 @@ public class PageView extends RelativeLayout {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    private Toolbar toolbar;
-    private final RelativeLayout relLayout;
+    private FlexToolbar flexToolbar;
     private LinearLayout linearLayout;
-    private final ImageView nav;
-    private final TextView toolbarTitle;
-    public int NAV_CLICK_NONE = 0;
-    public int NAV_CLICK_FINISH = 1;
-    public int TITLE_CENTER = 1;
-    public int TITLE_START = 0;
 
     private void _setupLinearLayout() {
+        flexToolbar = new FlexToolbar(getContext());
+        flexToolbar.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        flexToolbar.setId(android.R.id.navigationBarBackground);
+
         linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        LayoutParams llp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        linearLayout.setPadding(0, 105, 0, 0);
+        RelativeLayout.LayoutParams llp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        llp.addRule(RelativeLayout.BELOW, flexToolbar.getId());
         linearLayout.setId(android.R.id.content);
         linearLayout.setLayoutParams(llp);
-        Log.wtf("tagtag", "init");
-        addView(linearLayout);
     }
 
     public PageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+
         _setupLinearLayout();
+
+        RelativeLayout layout = new RelativeLayout(getContext());
+        layout.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        layout.addView(linearLayout);
+        layout.addView(flexToolbar);
+
+        addView(layout, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        float oneDP = UtilsKit.dpToPx(1, getContext());
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PageView, defStyleAttr, defStyleRes);
 
-        int actionBarSize;
-        TypedValue outValue = new TypedValue();
-        getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, outValue, true);
-        actionBarSize = outValue.resourceId;
-
-        float oneDP = UtilsKit.dpToPx(1, getContext());
-        int navSize = (int) (oneDP * 26);
-
-
-        relLayout = new RelativeLayout(getContext());
-        relLayout.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, actionBarSize));
-        addView(relLayout);
-
-
-        toolbar = new Toolbar(getContext());
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, actionBarSize);
-        params.addRule(CENTER_VERTICAL);
-        toolbar.setLayoutParams(params);
-        toolbar.setElevation(0);
-        relLayout.addView(toolbar);
-        nav = new ImageView(getContext());
-        LayoutParams navParams = new LayoutParams(navSize, navSize);
-        navParams.setMarginStart((int) (oneDP * 15));
-        navParams.addRule(CENTER_VERTICAL);
-        nav.setLayoutParams(navParams);
-        relLayout.addView(nav);
-        nav.setId(android.R.id.icon2);
-        toolbarTitle = new TextView(getContext());
-        LayoutParams titleParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        titleParams.setMarginStart((int) (oneDP * 15));
-        titleParams.addRule(END_OF, nav.getId());
-        titleParams.addRule(CENTER_IN_PARENT);
-        toolbarTitle.setLayoutParams(titleParams);
-        toolbarTitle.setTypeface(Typeface.DEFAULT_BOLD);
-        relLayout.addView(toolbarTitle);
-
-
         setToolbarTitleFont(a.getResourceId(R.styleable.PageView_toolbarTitleFont, 0));
-        setToolbarNavSize(a.getDimensionPixelSize(R.styleable.PageView_toolbarNavSize, navSize));
+        if (a.hasValue(R.styleable.PageView_toolbarNavSize))
+            setToolbarNavSize(a.getDimensionPixelSize(R.styleable.PageView_toolbarNavSize, 0));
         setToolbarTitleSize(TypedValue.COMPLEX_UNIT_PX, a.getDimension(R.styleable.PageView_toolbarTitleSize, 20));
-        setToolbarHeight(a.getDimensionPixelSize(R.styleable.PageView_toolbarHeight, actionBarSize));
+
         setToolbarTitle(a.getString(R.styleable.PageView_toolbarTitle));
         setToolbarNavIcon(a.getResourceId(R.styleable.PageView_toolbarNavIcon, android.R.color.transparent));
-        setToolbarNavClick(a.getInt(R.styleable.PageView_toolbarNavClick, 1));
+        setToolbarNavClick(a.getInt(R.styleable.PageView_toolbarNavClick, MaterialConstants.TOOLBAR_NAV_CLICK_FINISH));
         setToolbarBackground(a.getResourceId(R.styleable.PageView_toolbarBackground, android.R.color.transparent));
-        setToolbarTitlePosition(a.getInt(R.styleable.PageView_toolbarTitlePosition, TITLE_START));
-
+        setToolbarTitlePosition(a.getInt(R.styleable.PageView_toolbarTitlePosition, MaterialConstants.TOOLBAR_TITLE_START));
+        if (a.hasValue(R.styleable.PageView_toolbarHeight))
+            setToolbarHeight(a.getDimensionPixelSize(R.styleable.PageView_toolbarHeight, 0));
         if (a.hasValue(R.styleable.PageView_toolbarTitleColor))
             setToolbarTitleColor(a.getColor(R.styleable.PageView_toolbarTitleColor, Color.WHITE));
         if (a.hasValue(R.styleable.PageView_toolbarNavTint))
@@ -121,82 +82,82 @@ public class PageView extends RelativeLayout {
         if (a.hasValue(R.styleable.PageView_toolbarNavBackground))
             setToolbarNavBackground(a.getResourceId(R.styleable.PageView_toolbarNavBackground, android.R.color.transparent));
         else {
+            TypedValue outValue = new TypedValue();
             getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, outValue, true);
             setToolbarNavBackground(outValue.resourceId);
         }
+        if (a.hasValue(R.styleable.PageView_toolbarShadowColor)) {
+            int color = a.getColor(R.styleable.PageView_toolbarShadowColor, Color.TRANSPARENT);
+            View view = new View(getContext());
+            RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    a.getDimensionPixelSize(R.styleable.PageView_toolbarShadowHeight, (int) (oneDP * 15)));
+            p.addRule(RelativeLayout.BELOW, flexToolbar.getId());
+            view.setLayoutParams(p);
+
+            GradientDrawable gd = new GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    new int[]{color, 0x00131313});
+            gd.setCornerRadius(0f);
+
+            view.setBackground(gd);
+            layout.addView(view);
+
+        }
+
         a.recycle();
     }
 
     @Override
     public void addView(View child, ViewGroup.LayoutParams params) {
-        linearLayout.addView(child);
-        Log.wtf("tagtag", "4");
+        if (getChildCount() > 0) linearLayout.addView(child, params);
+        else super.addView(child, params);
     }
 
     public void setToolbarTitlePosition(int position) {
-        LayoutParams p = (LayoutParams) toolbarTitle.getLayoutParams();
-        if (position == TITLE_CENTER)
-            p.removeRule(END_OF);
-        else
-            p.addRule(END_OF, nav.getId());
-        toolbarTitle.setLayoutParams(p);
+        flexToolbar.setToolbarTitlePosition(position);
     }
 
     public void setToolbarTitleColor(@ColorInt int color) {
-        toolbarTitle.setTextColor(color);
+        flexToolbar.setToolbarTitleColor(color);
     }
 
     public void setToolbarNavTint(@ColorInt int color) {
-        nav.setColorFilter(color);
+        flexToolbar.setToolbarNavTint(color);
     }
 
     public void setToolbarTitleFont(@FontRes int font) {
-        if (font != 0) {
-            new Handler().post(() -> {
-                Typeface typeface = ResourcesCompat.getFont(getContext(), font);
-                toolbarTitle.setTypeface(typeface);
-            });
-        }
+        flexToolbar.setToolbarTitleFont(font);
     }
 
     public void setToolbarNavSize(int size) {
-        nav.getLayoutParams().height = size;
-        nav.getLayoutParams().width = size;
-    }
-
-    public void setToolbarHeight(int height) {
-        relLayout.getLayoutParams().height = height;
-        linearLayout.setPadding(0, height, 0, 0);
-
+        flexToolbar.setToolbarNavSize(size);
     }
 
     public void setToolbarTitleSize(int unit, float size) {
-        toolbarTitle.setTextSize(unit, size);
+        flexToolbar.setToolbarTitleSize(unit, size);
     }
 
     public void setToolbarNavIcon(@DrawableRes int res) {
-        if (res == android.R.color.transparent)
-            nav.setVisibility(GONE);
-        else
-            nav.setVisibility(VISIBLE);
-        nav.setImageResource(res);
+        flexToolbar.setToolbarNavIcon(res);
     }
 
     public void setToolbarNavBackground(@DrawableRes int res) {
-        nav.setBackgroundResource(res);
+        flexToolbar.setToolbarNavBackground(res);
     }
 
     public void setToolbarNavClick(int navClick) {
-        if (navClick == NAV_CLICK_FINISH)
-            nav.setOnClickListener(v -> ((Activity) getContext()).finish());
-        else nav.setOnClickListener(null);
+        flexToolbar.setToolbarNavClick(navClick);
     }
 
     public void setToolbarTitle(String title) {
-        toolbarTitle.setText(title);
+        flexToolbar.setToolbarTitle(title);
+    }
+
+    public void setToolbarHeight(int height) {
+        flexToolbar.getLayoutParams().height = height;
     }
 
     public void setToolbarBackground(@DrawableRes int res) {
-        relLayout.setBackgroundResource(res);
+        flexToolbar.setBackgroundResource(res);
     }
 }

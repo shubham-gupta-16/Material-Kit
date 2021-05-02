@@ -20,7 +20,8 @@
             <enum name="finish" value="1"/>
             <enum name="none" value="0"/>
         </attr>
-        <attr name="toolbarShadow" format="reference"/>
+        <attr name="toolbarShadowColor" format="color"/>
+        <attr name="toolbarShadowHeight" format="dimension"/>
     </declare-styleable>
 
 </resources>
