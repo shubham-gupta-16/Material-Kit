@@ -24,9 +24,11 @@ public class UtilsKit {
     }
 
     public static void fadeVisibleView(final View view) {
-        view.setVisibility(View.VISIBLE);
-        view.setAlpha(0f);
-        view.animate().setDuration(400).alpha(1);
+        if (view.getVisibility() == View.VISIBLE) {
+            view.setVisibility(View.VISIBLE);
+            view.setAlpha(0f);
+            view.animate().setDuration(400).alpha(1);
+        }
     }
 
     public static void fadeHideView(final View view) {

@@ -1,45 +1,36 @@
 package com.shubhamgupta16.materialkit;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.FontRes;
-
-public class PageScrollView extends PageView {
+public class LinearScrollView extends LinearLayout {
 
     public LinearLayout linearLayout;
     public ScrollView layout;
 
-    public PageScrollView(Context context) {
+    public LinearScrollView(Context context) {
         this(context, null);
     }
 
-    public PageScrollView(Context context, AttributeSet attrs) {
+    public LinearScrollView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public PageScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LinearScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public PageScrollView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public LinearScrollView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        _setupScrollView(null, null);
+        _setupScrollView();
     }
 
-    private void _setupScrollView(View child, ViewGroup.LayoutParams params) {
+    private void _setupScrollView() {
         if (layout == null) {
             layout = new ScrollView(getContext());
             layout.setId(android.R.id.candidatesArea);
@@ -49,16 +40,12 @@ public class PageScrollView extends PageView {
             linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             layout.addView(linearLayout);
             addView(layout);
-
-            if (child != null)
-                linearLayout.addView(child, params);
         }
     }
 
     @Override
     public void addView(View child) {
         super.addView(child, child.getLayoutParams());
-        Log.d("tagtag", "here");
     }
 
     @Override

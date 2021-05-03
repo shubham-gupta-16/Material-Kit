@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 public class ProductView extends RelativeLayout {
 
     private static final int MAX_GRID_COL = 11;
@@ -26,7 +25,6 @@ public class ProductView extends RelativeLayout {
     private RecyclerView recyclerView;
     private RelativeLayout loadingView, noResView;
     private int appBackgroundColor = Color.WHITE;
-    private RecyclerView.Adapter<RecyclerView.ViewHolder> adapter;
     private int orientation = VERTICAL;
     private int gridCount = 1;
     boolean reverseLayout = false;
@@ -42,8 +40,8 @@ public class ProductView extends RelativeLayout {
         init();
     }
 
-    public RecyclerView.Adapter<RecyclerView.ViewHolder> getAdapter() {
-        return adapter;
+    public RecyclerView.Adapter getAdapter() {
+        return recyclerView.getAdapter();
     }
 
     public ProductView(Context context, AttributeSet attrs) {

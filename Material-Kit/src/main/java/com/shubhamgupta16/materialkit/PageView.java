@@ -15,7 +15,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.FontRes;
 
-public class PageView extends LinearLayout {
+public class PageView extends RelativeLayout {
 
 
     public PageView(Context context) {
@@ -31,7 +31,7 @@ public class PageView extends LinearLayout {
     }
 
     private FlexToolbar flexToolbar;
-    private LinearLayout linearLayout;
+    private RelativeLayout relativeLayout;
 
     private void _setupLinearLayout() {
         flexToolbar = new FlexToolbar(getContext());
@@ -40,12 +40,11 @@ public class PageView extends LinearLayout {
         flexToolbar.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(outValue.resourceId)));
         flexToolbar.setId(android.R.id.navigationBarBackground);
 
-        linearLayout = new LinearLayout(getContext());
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        relativeLayout = new RelativeLayout(getContext());
         RelativeLayout.LayoutParams llp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         llp.addRule(RelativeLayout.BELOW, flexToolbar.getId());
-        linearLayout.setId(android.R.id.content);
-        linearLayout.setLayoutParams(llp);
+        relativeLayout.setId(android.R.id.content);
+        relativeLayout.setLayoutParams(llp);
     }
 
     public PageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -55,7 +54,7 @@ public class PageView extends LinearLayout {
 
         RelativeLayout layout = new RelativeLayout(getContext());
         layout.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        layout.addView(linearLayout);
+        layout.addView(relativeLayout);
         layout.addView(flexToolbar);
 
         addView(layout, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -114,7 +113,7 @@ public class PageView extends LinearLayout {
 
     @Override
     public void addView(View child, ViewGroup.LayoutParams params) {
-        if (getChildCount() > 0) linearLayout.addView(child, params);
+        if (getChildCount() > 0) relativeLayout.addView(child, params);
         else super.addView(child, params);
     }
 
