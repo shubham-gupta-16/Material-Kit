@@ -138,4 +138,7 @@ class FlexToolbar extends RelativeLayout {
     }
 
 
+    public void setToolbarNavClick(OnClickListener onClickListener) {
+        nav.setOnClickListener(onClickListener);
+    }
 }

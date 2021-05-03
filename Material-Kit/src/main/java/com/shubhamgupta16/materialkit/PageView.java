@@ -152,6 +152,9 @@ public class PageView extends RelativeLayout {
     public void setToolbarNavClick(int navClick) {
         flexToolbar.setToolbarNavClick(navClick);
     }
+    public void setToolbarNavClick(OnClickListener onClickListener) {
+        flexToolbar.setToolbarNavClick(onClickListener);
+    }
 
     public void setToolbarTitle(String title) {
         flexToolbar.setToolbarTitle(title);

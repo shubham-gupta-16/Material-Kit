@@ -32,7 +32,7 @@ public class UtilsKit {
     }
 
     public static void fadeHideView(final View view) {
-        if (view.getVisibility() != View.GONE) {
+            if (view.getVisibility() != View.GONE) {
             view.animate().setDuration(400).alpha(0);
             new Handler().postDelayed(new Runnable() {
                 @Override
