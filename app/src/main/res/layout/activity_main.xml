@@ -55,5 +55,9 @@
         android:background="@color/purple_200" />
     </com.shubhamgupta16.materialkit.LinearScrollView>
 
+    <!--<include layout="@layout/loading_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>-->
+
 </com.shubhamgupta16.materialkit.PageView>
 

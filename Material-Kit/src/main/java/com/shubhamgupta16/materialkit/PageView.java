@@ -113,6 +113,12 @@ public class PageView extends RelativeLayout {
     }
 
     @Override
+    public void addView(View child) {
+        if (getChildCount() > 0) relativeLayout.addView(child);
+        else super.addView(child);
+    }
+
+    @Override
     public void addView(View child, ViewGroup.LayoutParams params) {
         if (getChildCount() > 0) relativeLayout.addView(child, params);
         else super.addView(child, params);
