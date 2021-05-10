@@ -47,6 +47,7 @@ class FlexToolbar extends RelativeLayout {
 
 
         toolbarTitle = new TextView(getContext());
+        toolbarTitle.setLines(1);
         LayoutParams titleParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         titleParams.setMarginStart((int) (oneDP * 15));
         titleParams.addRule(END_OF, nav.getId());

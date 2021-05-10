@@ -28,20 +28,16 @@ public class ProductView extends RelativeLayout {
     private int orientation = VERTICAL;
     private int gridCount = 1;
     boolean reverseLayout = false;
-    private PaginationHandler.OnScrolledListener onScrolledListener;
     private PaginationHandler handlePage;
+    private PaginationHandler.OnScrolledListener onScrolledListener;
 
-    public void setOnScrolledListener(@NonNull PaginationHandler.OnScrolledListener onScrolledListener) {
+    public void setOnScrolledListener(PaginationHandler.OnScrolledListener onScrolledListener) {
         this.onScrolledListener = onScrolledListener;
     }
 
     public ProductView(Context context) {
         super(context);
         init();
-    }
-
-    public RecyclerView.Adapter getAdapter() {
-        return recyclerView.getAdapter();
     }
 
     public ProductView(Context context, AttributeSet attrs) {
@@ -64,6 +60,7 @@ public class ProductView extends RelativeLayout {
     }
 
     private void init() {
+        Log.d("tagtag", "init");
         recyclerView = new RecyclerView(getContext());
         setMatchParentToView(recyclerView);
         addView(recyclerView);
@@ -77,8 +74,9 @@ public class ProductView extends RelativeLayout {
         setLoadingView(getViewFromRes(loadingViewRes));
     }
 
-    public void setNoResultView(int noResViewRes) {
-        setNoResultView(getViewFromRes(noResViewRes));
+    public void setNoResView(int noResViewRes) {
+        Log.d("tagtag", "setNoResView");
+        setNoResView(getViewFromRes(noResViewRes));
     }
 
     public void setLoadingView(View loadingView) {
@@ -87,7 +85,7 @@ public class ProductView extends RelativeLayout {
         this.loadingView.addView(loadingView);
     }
 
-    public void setNoResultView(View noResView) {
+    public void setNoResView(View noResView) {
         this.noResView.removeAllViews();
         noResView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         this.noResView.addView(noResView);
@@ -107,13 +105,11 @@ public class ProductView extends RelativeLayout {
             this.gridCount = gridCount;
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), gridCount, orientation, reverseLayout);
-        handlePage = new PaginationHandler(recyclerView, manager, new PaginationHandler.OnScrolledListener() {
-            @Override
-            public void fetchThisPage(int page) {
-                if (onScrolledListener != null)
-                    onScrolledListener.fetchThisPage(page);
-            }
-        });
+        handlePage = new PaginationHandler(recyclerView, manager, onScrolledListener);
+    }
+
+    public RecyclerView.Adapter getAdapter() {
+        return recyclerView.getAdapter();
     }
 
     public void setAdapter(@NonNull RecyclerView.Adapter adapter) {
@@ -176,23 +172,16 @@ public class ProductView extends RelativeLayout {
         UtilsKit.fadeVisibleView(loadingView);
     }
 
-    public void fetchSuccess(int maxPage, int page){
-        handlePage.fetchSuccess(maxPage, page);
+    public void dataFetched(boolean isFetched, int maxPage, int page) {
+        UtilsKit.fadeHideView(loadingView);
+        handlePage.dataFetched(isFetched, maxPage, page);
 
-        if (page == 1 && handlePage.getLastFetchPage() == 0)
-            showNoResultLayout();
+        if (page == 1 && !isFetched)
+            showNoResLayout();
         else
             UtilsKit.fadeHideView(noResView);
     }
-    public void fetchFailed(){
-        handlePage.fetchFailed();
-    }
-
-    public void dataFetched(boolean isFetched, int maxPage, int page) {
-        UtilsKit.fadeHideView(loadingView);
-
-    }
-    private void showNoResultLayout(){
+    public void showNoResLayout(){
         UtilsKit.fadeVisibleView(noResView);
     }
 

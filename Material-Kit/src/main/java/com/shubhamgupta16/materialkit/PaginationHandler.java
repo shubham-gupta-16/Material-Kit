@@ -7,14 +7,15 @@ import androidx.recyclerview.widget.RecyclerView;
 public class PaginationHandler {
     private boolean isScrollLoad = false;
     private int currentItems, totalItems, scrollOutItems;
-    private int pageCount = 0, lastFetch = 0;
+    private int maxPage = 0, lastFetch = 0;
 
-    public interface OnScrolledListener{
-        void fetchThisPage(int page);
+    public interface OnScrolledListener {
+        void onScrolledToBottom(int page);
     }
 
     public PaginationHandler(RecyclerView recyclerView, final LinearLayoutManager manager, final OnScrolledListener onScrolledListener) {
         recyclerView.setLayoutManager(manager);
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -29,35 +30,26 @@ public class PaginationHandler {
                 scrollOutItems = manager.findFirstVisibleItemPosition();
 
                 if (isScrollLoad && (currentItems + scrollOutItems == totalItems)) {
-                    if (lastFetch < pageCount) {
+                    if (lastFetch < maxPage) {
                         isScrollLoad = false;
-                        onScrolledListener.fetchThisPage(lastFetch + 1);
+                        onScrolledListener.onScrolledToBottom(lastFetch + 1);
                     }
                 }
             }
         });
+
     }
 
-    public void fetchSuccess(int pageCount, int page){
+    public void dataFetched(boolean isFetched, int maxPage, int page) {
         isScrollLoad = true;
-            this.pageCount = pageCount;
+        if (isFetched) {
+            this.maxPage = maxPage;
             lastFetch = page;
+        }
     }
 
-    public void fetchFailed(){
-        isScrollLoad = true;
-    }
-
-    public void reset(){
+    public void reset() {
         lastFetch = 0;
-        pageCount = 0;
-    }
-
-    public int getPageCount() {
-        return pageCount;
-    }
-
-    public int getLastFetchPage() {
-        return lastFetch;
+        maxPage = 0;
     }
 }
