@@ -29,11 +29,6 @@ public class ProductView extends RelativeLayout {
     private int gridCount = 1;
     boolean reverseLayout = false;
     private PaginationHandler handlePage;
-    private PaginationHandler.OnScrolledListener onScrolledListener;
-
-    public void setOnScrolledListener(PaginationHandler.OnScrolledListener onScrolledListener) {
-        this.onScrolledListener = onScrolledListener;
-    }
 
     public ProductView(Context context) {
         super(context);
@@ -91,11 +86,11 @@ public class ProductView extends RelativeLayout {
         this.noResView.addView(noResView);
     }
 
-    public void setLayout(int orientation) {
-        setLayout(orientation, gridCount, reverseLayout);
+    public void setLayout(int orientation, PaginationHandler.OnScrolledListener onScrolledListener) {
+        setLayout(orientation, gridCount, reverseLayout, onScrolledListener);
     }
 
-    public void setLayout(int orientation, int gridCount, boolean reverseLayout) {
+    public void setLayout(int orientation, int gridCount, boolean reverseLayout, PaginationHandler.OnScrolledListener onScrolledListener) {
         if (orientation == VERTICAL)
             this.orientation = VERTICAL;
         else if (orientation == HORIZONTAL)
@@ -119,7 +114,7 @@ public class ProductView extends RelativeLayout {
         loadingView.setVisibility(VISIBLE);
         noResView.setVisibility(GONE);
         if (handlePage == null)
-            setLayout(orientation, gridCount, reverseLayout);
+            setLayout(orientation, gridCount, reverseLayout, null);
         recyclerView.setAdapter(adapter);
     }
 

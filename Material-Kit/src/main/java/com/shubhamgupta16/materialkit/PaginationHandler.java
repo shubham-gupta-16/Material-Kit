@@ -32,7 +32,8 @@ public class PaginationHandler {
                 if (isScrollLoad && (currentItems + scrollOutItems == totalItems)) {
                     if (lastFetch < maxPage) {
                         isScrollLoad = false;
-                        onScrolledListener.onScrolledToBottom(lastFetch + 1);
+                        if (onScrolledListener != null)
+                            onScrolledListener.onScrolledToBottom(lastFetch + 1);
                     }
                 }
             }
@@ -45,6 +46,7 @@ public class PaginationHandler {
         if (isFetched) {
             this.maxPage = maxPage;
             lastFetch = page;
+
         }
     }
 

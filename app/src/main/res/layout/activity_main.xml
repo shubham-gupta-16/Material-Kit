@@ -21,7 +21,12 @@
     app:toolbarTitleSize="20sp"
     tools:context=".MainActivity">
 
-    <com.shubhamgupta16.materialkit.LinearScrollView
+    <com.shubhamgupta16.materialkit.ProductView
+        android:id="@+id/productView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!--<com.shubhamgupta16.materialkit.LinearScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -53,7 +58,7 @@
         android:layout_height="400dp"
         android:layout_margin="50dp"
         android:background="@color/purple_200" />
-    </com.shubhamgupta16.materialkit.LinearScrollView>
+    </com.shubhamgupta16.materialkit.LinearScrollView>-->
 
     <!--<include layout="@layout/loading_layout"
         android:layout_height="match_parent"
