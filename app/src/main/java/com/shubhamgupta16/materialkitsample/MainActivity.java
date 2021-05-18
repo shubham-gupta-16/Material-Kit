@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.shubhamgupta16.materialkit.PageView;
 import com.shubhamgupta16.materialkit.PaginationHandler;
 import com.shubhamgupta16.materialkit.ProductView;
+import com.shubhamgupta16.materialkit.TextInputView;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TextInputView textInputView = findViewById(R.id.textInputView);
+        textInputView.setOnInputChangeListener(new TextInputView.OnInputChangeListener() {
+            @Override
+            public void onChange(CharSequence input, int count) {
+                Log.d("Typed Data", input.toString());
+            }
+        });
 
         PageView pageView = findViewById(R.id.pageView);
         productView = findViewById(R.id.productView);

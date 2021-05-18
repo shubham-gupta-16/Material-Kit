@@ -20,6 +20,7 @@ public class TextInputView extends TextInputLayout {
     }
 
     private OnInputChangeListener onInputChangeListener;
+    private boolean clearError = false;
 
     public TextInputView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -36,6 +37,8 @@ public class TextInputView extends TextInputLayout {
 
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            if (clearError)
+                                setErrorEnabled(false);
                             if (onInputChangeListener != null)
                                 onInputChangeListener.onChange(s, count);
                         }
@@ -49,6 +52,10 @@ public class TextInputView extends TextInputLayout {
         });
     }
 
+    public void clearErrorOnInput(boolean clearError) {
+        this.clearError = clearError;
+    }
+
     public String getText() {
         if (getEditText() != null)
             return getEditText().getText().toString();
@@ -58,6 +65,11 @@ public class TextInputView extends TextInputLayout {
     public void setText(String text) {
         if (getEditText() != null)
             getEditText().setText(text);
+    }
+
+
+    public void setOnInputChangeListener(OnInputChangeListener onInputChangeListener) {
+        this.onInputChangeListener = onInputChangeListener;
     }
 
     public interface OnInputChangeListener {

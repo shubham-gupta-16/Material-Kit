@@ -27,6 +27,7 @@
         android:layout_height="match_parent"/>
 
     <com.shubhamgupta16.materialkit.TextInputView
+        android:id="@+id/textInputView"
         android:layout_marginTop="20dp"
         android:hint="Mobile"
         android:layout_width="match_parent"
