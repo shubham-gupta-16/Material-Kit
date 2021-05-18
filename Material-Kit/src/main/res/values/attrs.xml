@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--<declare-styleable name="TextInputView">
+        <attr name="android:fontFamily" format="reference" />
+        <attr name="hint" format="string" />
+        <attr name="android:text" format="string"/>
+        <attr name="android:maxLength" format="integer" />
+        <attr name="android:textColor" format="color" />
+        <attr name="android:textSize" format="dimension" />
+        <attr name="android:lines" format="integer" />
+        <attr name="android:inputType" format="enum"/>
+        <attr name="android:imeOptions" format="enum"/>
+    </declare-styleable>-->
+
     <declare-styleable name="PageView">
-        <attr name="toolbarBackground" format="reference"/>
-        <attr name="toolbarHeight" format="dimension"/>
-        <attr name="toolbarTitle" format="string"/>
-        <attr name="toolbarTitleFont" format="reference"/>
-        <attr name="toolbarTitleSize" format="dimension"/>
-        <attr name="toolbarTitleColor" format="color"/>
+        <attr name="toolbarBackground" format="reference" />
+        <attr name="toolbarHeight" format="dimension" />
+        <attr name="toolbarTitle" format="string" />
+        <attr name="toolbarTitleFont" format="reference" />
+        <attr name="toolbarTitleSize" format="dimension" />
+        <attr name="toolbarTitleColor" format="color" />
         <attr name="toolbarTitlePosition" format="enum">
-            <enum name="start" value="0"/>
-            <enum name="center" value="1"/>
+            <enum name="start" value="0" />
+            <enum name="center" value="1" />
         </attr>
-        <attr name="toolbarNavIcon" format="reference"/>
-        <attr name="toolbarNavBackground" format="reference"/>
-        <attr name="toolbarNavSize" format="dimension"/>
-        <attr name="toolbarNavPadding" format="dimension"/>
-        <attr name="toolbarNavTint" format="color"/>
+        <attr name="toolbarNavIcon" format="reference" />
+        <attr name="toolbarNavBackground" format="reference" />
+        <attr name="toolbarNavSize" format="dimension" />
+        <attr name="toolbarNavPadding" format="dimension" />
+        <attr name="toolbarNavTint" format="color" />
 
         <attr name="toolbarNavClick" format="enum">
-            <enum name="finish" value="1"/>
-            <enum name="none" value="0"/>
+            <enum name="finish" value="1" />
+            <enum name="none" value="0" />
         </attr>
-        <attr name="toolbarShadowColor" format="color"/>
-        <attr name="toolbarShadowHeight" format="dimension"/>
+        <attr name="toolbarShadowColor" format="color" />
+        <attr name="toolbarShadowHeight" format="dimension" />
     </declare-styleable>
 
 </resources>

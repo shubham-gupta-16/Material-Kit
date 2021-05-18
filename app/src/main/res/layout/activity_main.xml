@@ -26,6 +26,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <com.shubhamgupta16.materialkit.TextInputView
+        android:layout_marginTop="20dp"
+        android:hint="Mobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:fontFamily="@font/tjb"
+            android:inputType="textMultiLine"
+            android:maxLength="10" />
+    </com.shubhamgupta16.materialkit.TextInputView>
+
     <!--<com.shubhamgupta16.materialkit.LinearScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
