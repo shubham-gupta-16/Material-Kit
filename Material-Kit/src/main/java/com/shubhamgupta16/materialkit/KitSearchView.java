@@ -12,7 +12,6 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
@@ -34,7 +32,6 @@ public class KitSearchView extends RelativeLayout {
     private ImageButton backButton, clearButton;
     private SearchView.OnQueryTextListener onQueryTextListener;
     private TypedArray a;
-
 
     public KitSearchView(Context context) {
         super(context);
@@ -112,25 +109,17 @@ public class KitSearchView extends RelativeLayout {
             }
         });
 
-        clearButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editText.setText("");
-            }
-        });
+        clearButton.setOnClickListener(v -> editText.setText(""));
 
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if (onQueryTextListener != null)
-                        onQueryTextListener.onQueryTextSubmit(editText.getText().toString());
-                    editText.clearFocus();
-                    UtilsKit.hideKeyboard((Activity) getContext());
-                    return true;
-                }
-                return false;
+        editText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (onQueryTextListener != null)
+                    onQueryTextListener.onQueryTextSubmit(editText.getText().toString());
+                editText.clearFocus();
+                UtilsKit.hideKeyboard((Activity) getContext());
+                return true;
             }
+            return false;
         });
     }
 

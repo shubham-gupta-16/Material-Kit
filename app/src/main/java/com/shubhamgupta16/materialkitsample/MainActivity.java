@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 //        Suggestion View
+        suggestionView.initialize();
         suggestionView.setLimit(10);
         suggestionView.setOnSuggestionListener(new KitSuggestionView.OnSuggestionListener() {
             @Override

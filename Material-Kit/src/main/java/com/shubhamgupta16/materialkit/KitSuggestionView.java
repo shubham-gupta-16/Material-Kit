@@ -1,12 +1,15 @@
 package com.shubhamgupta16.materialkit;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,34 +18,40 @@ import java.util.ArrayList;
 public class KitSuggestionView extends RecyclerView {
     public KitSuggestionView(@NonNull Context context) {
         super(context);
-        init();
     }
 
     public KitSuggestionView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init();
+        this(context, attrs, 0);
     }
 
     public KitSuggestionView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.KitSuggestionView, defStyleAttr, 0);
+        fontRes = a.getResourceId(R.styleable.KitSuggestionView_itemFontFamily, -1);
+        a.recycle();
+
     }
 
     public SugAdapter adapter;
     public ArrayList<SuggestionModel> models;
     private SQLiteDatabase database;
     private int _limit = 20;
+    private int fontRes = -1;
 
-    private void init() {
+    public void initialize() {
         initSqlDB();
         models = new ArrayList<>();
-        adapter = new SugAdapter(getContext(), models);
+        if (fontRes != -1)
+            adapter = new SugAdapter(getContext(), models, ResourcesCompat.getFont(getContext(), fontRes));
+        else
+            adapter = new SugAdapter(getContext(), models, null);
         setLayoutManager(new LinearLayoutManager(getContext()));
         setAdapter(adapter);
         filterSuggestion("", null);
     }
 
     public void setLimit(int limit) {
+        if (models == null) return;
         this._limit = limit;
         ArrayList<SuggestionModel> suggestionModels = new ArrayList<>(models);
         _filter(suggestionModels);
@@ -98,8 +107,7 @@ public class KitSuggestionView extends RecyclerView {
     }
 
 
-
-    public void removeHistory(int position){
+    public void removeHistory(int position) {
         if (models.size() <= position) return;
         String text = models.get(position).getText();
         removeHistory(text);
@@ -108,14 +116,14 @@ public class KitSuggestionView extends RecyclerView {
         adapter.notifyItemRangeChanged(position, models.size());
     }
 
-    public void removeHistory(String text){
+    public void removeHistory(String text) {
         database.execSQL("DELETE FROM history WHERE text = '" + text + "';");
     }
 
     public void addHistory(String text) {
         try {
             database.execSQL("INSERT INTO history (text) VALUES ('" + text + "');");
-        } catch (Exception ignored){
+        } catch (Exception ignored) {
 
         }
     }

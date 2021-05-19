@@ -2,6 +2,7 @@ package com.shubhamgupta16.materialkit;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +21,12 @@ class SugAdapter extends RecyclerView.Adapter<SugAdapter.ViewHolder> {
     private final Context activity;
     private final ArrayList<KitSuggestionView.SuggestionModel> list;
     private KitSuggestionView.OnSuggestionListener onSuggestionListener;
+    private Typeface typeface;
 
-    public SugAdapter(Context context, ArrayList<KitSuggestionView.SuggestionModel> list) {
+    public SugAdapter(Context context, ArrayList<KitSuggestionView.SuggestionModel> list, Typeface typeface) {
         this.activity = context;
         this.list = list;
-        this.onSuggestionListener = onSuggestionListener;
+        this.typeface = typeface;
     }
 
     public void setOnSuggestionListener(KitSuggestionView.OnSuggestionListener onSuggestionListener) {
@@ -49,6 +51,8 @@ class SugAdapter extends RecyclerView.Adapter<SugAdapter.ViewHolder> {
             holder.icon1.setImageResource(R.drawable.ic_kit_search_24);
 
         holder.text1.setText(model.getText());
+        if (typeface != null)
+            holder.text1.setTypeface(typeface);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

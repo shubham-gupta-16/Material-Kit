@@ -18,7 +18,7 @@
         android:text="soap"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textColor="@android:color/tertiary_text_light"
+        android:textColor="?android:textColorPrimary"
         android:lines="1"
         android:ellipsize="end"
         android:layout_marginStart="8dp"
