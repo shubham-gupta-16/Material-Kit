@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.android.material.textfield.TextInputLayout;
 
 
@@ -28,26 +29,26 @@ public class TextInputView extends TextInputLayout {
         addOnEditTextAttachedListener(new OnEditTextAttachedListener() {
             @Override
             public void onEditTextAttached(@NonNull TextInputLayout textInputLayout) {
-                if (textInputLayout.getEditText() != null)
-                    textInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (textInputLayout.getEditText() == null) return;
+                textInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-                            if (clearError)
-                                setErrorEnabled(false);
-                            if (onInputChangeListener != null)
-                                onInputChangeListener.onChange(s, count);
-                        }
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (clearError)
+                            setErrorEnabled(false);
+                        if (onInputChangeListener != null)
+                            onInputChangeListener.onChange(s, count);
+                    }
 
-                        @Override
-                        public void afterTextChanged(Editable s) {
+                    @Override
+                    public void afterTextChanged(Editable s) {
 
-                        }
-                    });
+                    }
+                });
             }
         });
     }

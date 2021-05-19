@@ -1,89 +1,87 @@
 package com.shubhamgupta16.materialkitsample;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.shubhamgupta16.materialkit.PageView;
-import com.shubhamgupta16.materialkit.PaginationHandler;
-import com.shubhamgupta16.materialkit.ProductView;
-import com.shubhamgupta16.materialkit.TextInputView;
-
-import java.util.ArrayList;
+import com.shubhamgupta16.materialkit.KitSuggestionView;
+import com.shubhamgupta16.materialkit.KitSearchView;
+import com.shubhamgupta16.materialkit.UtilsKit;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ProductView productView;
-    private ArrayList<String> strings;
+    private KitSearchView searchView;
+    private KitSuggestionView suggestionView;
+    private View searchLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextInputView textInputView = findViewById(R.id.textInputView);
-        textInputView.setOnInputChangeListener(new TextInputView.OnInputChangeListener() {
+        searchLayout = findViewById(R.id.searchLayout);
+        searchView = findViewById(R.id.searchView);
+        suggestionView = findViewById(R.id.suggestionView);
+
+//        Search View
+        searchView.setOnBackClickListener(new View.OnClickListener() {
             @Override
-            public void onChange(CharSequence input, int count) {
-                Log.d("Typed Data", input.toString());
+            public void onClick(View v) {
+                UtilsKit.circleReveal(searchLayout, false, searchView.getMeasuredWidth() - searchView.getMeasuredHeight() / 2, searchView.getMeasuredHeight() / 2);
+                UtilsKit.hideKeyboard(MainActivity.this);
             }
         });
-
-        PageView pageView = findViewById(R.id.pageView);
-        productView = findViewById(R.id.productView);
-        pageView.setDefaultToolbarTitle("Default Title"); // if not set in xml
-
-        pageView.getToolbar().inflateMenu(R.menu.main);
-        pageView.getToolbar().setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(MainActivity.this, "Searched: " + query, Toast.LENGTH_SHORT).show();
+                UtilsKit.hideKeyboard(MainActivity.this);
+                suggestionView.addHistory(query);
+                searchLayout.setVisibility(View.INVISIBLE);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                suggestionView.filterSuggestion(newText, null);
                 return false;
             }
         });
 
-        strings = new ArrayList<>();
-        MyAdapter adapter = new MyAdapter(this, strings);
-
-        productView.setLayout(ProductView.VERTICAL, new PaginationHandler.OnScrolledListener() {
+//        Suggestion View
+        suggestionView.setLimit(10);
+        suggestionView.setOnSuggestionListener(new KitSuggestionView.OnSuggestionListener() {
             @Override
-            public void onScrolledToBottom(int page) {
-                fetch(page);
-                Toast.makeText(MainActivity.this, "Here", Toast.LENGTH_SHORT).show();
+            public void onClick(String suggestion, int position, boolean isHistory, boolean isArrowButtonClicked) {
+                searchView.setQuery(suggestion, !isArrowButtonClicked);
+            }
+
+            @Override
+            public boolean onLongPress(String suggestion, int position, boolean isHistory) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(suggestion);
+                builder.setMessage("Remove from search history?");
+                builder.setPositiveButton("REMOVE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        suggestionView.removeHistory(position);
+                    }
+                });
+                builder.setNegativeButton("CANCEL", null);
+                builder.create().show();
+                return true;
             }
         });
-        productView.setNoResView(R.layout.no_res_layout);
-        productView.setAdapter(adapter);
-        fetch(1);
-//        productView.showNoResLayout();
     }
 
-    public void fetch(int page){
-        productView.fetchStart();
-        /*strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo");
-        strings.add("Heelo " + page);*/
-        productView.dataFetched(false, 0, page);
+
+    public void searchButtonClick(View view) {
+        UtilsKit.circleReveal(searchLayout, true, searchView.getMeasuredWidth() - searchView.getMeasuredHeight() / 2, searchView.getMeasuredHeight() / 2);
+        UtilsKit.showKeyboard(this, searchView);
     }
 }

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--<declare-styleable name="TextInputView">
+    <declare-styleable name="KitSearchView">
         <attr name="android:fontFamily" format="reference" />
-        <attr name="hint" format="string" />
-        <attr name="android:text" format="string"/>
+        <attr name="android:hint" format="string" />
         <attr name="android:maxLength" format="integer" />
         <attr name="android:textColor" format="color" />
         <attr name="android:textSize" format="dimension" />
-        <attr name="android:lines" format="integer" />
+        <attr name="hintTextColor" format="color" />
+        <attr name="backButtonTint" format="color" />
+        <attr name="clearButtonTint" format="color" />
+        <attr name="backButtonIcon" format="reference" />
+        <attr name="clearButtonIcon" format="reference" />
         <attr name="android:inputType" format="enum"/>
-        <attr name="android:imeOptions" format="enum"/>
-    </declare-styleable>-->
+    </declare-styleable>
 
     <declare-styleable name="PageView">
         <attr name="toolbarBackground" format="reference" />
@@ -25,9 +27,6 @@
             <enum name="center" value="1" />
         </attr>
         <attr name="toolbarNavIcon" format="reference" />
-        <attr name="toolbarNavBackground" format="reference" />
-        <attr name="toolbarNavSize" format="dimension" />
-        <attr name="toolbarNavPadding" format="dimension" />
         <attr name="toolbarNavTint" format="color" />
 
         <attr name="toolbarNavClick" format="enum">

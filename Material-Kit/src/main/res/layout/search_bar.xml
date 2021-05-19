@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="55dp">
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_kit_search_back_24"
+        android:focusable="true" />
+
+    <EditText
+        android:hint="Search..."
+        android:id="@+id/searchBar"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_weight="1"
+        android:lines="1"
+        android:maxLines="1"
+        android:imeOptions="actionSearch"
+        android:background="@android:color/transparent"
+        android:clickable="false"
+        android:inputType="text" />
+
+    <ImageButton
+        android:visibility="gone"
+        android:id="@+id/closeButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_kit_search_close_24" />
+
+</LinearLayout>

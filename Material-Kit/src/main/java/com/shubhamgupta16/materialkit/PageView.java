@@ -5,14 +5,17 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
@@ -69,12 +72,7 @@ public class PageView extends RelativeLayout {
         a = context.obtainStyledAttributes(attrs, R.styleable.PageView, defStyleAttr, defStyleRes);
 
         setToolbarTitleFont(a.getResourceId(R.styleable.PageView_toolbarTitleFont, 0));
-        if (a.hasValue(R.styleable.PageView_toolbarNavSize))
-            setToolbarNavSize(a.getDimensionPixelSize(R.styleable.PageView_toolbarNavSize, 0));
-        if (a.hasValue(R.styleable.PageView_toolbarNavPadding))
-            setToolbarNavPadding(a.getDimensionPixelSize(R.styleable.PageView_toolbarNavPadding, 0));
         setToolbarTitleSize(TypedValue.COMPLEX_UNIT_PX, a.getDimension(R.styleable.PageView_toolbarTitleSize, oneDP * 20));
-
         setToolbarTitle(a.getString(R.styleable.PageView_toolbarTitle));
         if (a.hasValue(R.styleable.PageView_toolbarNavIcon))
             setToolbarNavIcon(a.getResourceId(R.styleable.PageView_toolbarNavIcon, android.R.color.transparent));
@@ -88,13 +86,6 @@ public class PageView extends RelativeLayout {
         if (a.hasValue(R.styleable.PageView_toolbarNavTint))
             setToolbarNavTint(a.getColor(R.styleable.PageView_toolbarNavTint, Color.WHITE));
 
-        if (a.hasValue(R.styleable.PageView_toolbarNavBackground))
-            setToolbarNavBackground(a.getResourceId(R.styleable.PageView_toolbarNavBackground, android.R.color.transparent));
-        else {
-            TypedValue outValue = new TypedValue();
-            getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, outValue, true);
-            setToolbarNavBackground(outValue.resourceId);
-        }
         int color = a.getColor(R.styleable.PageView_toolbarShadowColor, 0x10000000);
         View view = new View(getContext());
         RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -130,15 +121,13 @@ public class PageView extends RelativeLayout {
     }
 
     public void setToolbarTitlePosition(int position) {
-        LayoutParams p = (LayoutParams) flexToolbar.toolbarTitle.getLayoutParams();
         if (position == MaterialConstants.TOOLBAR_TITLE_CENTER) {
-            p.removeRule(END_OF);
-            p.addRule(CENTER_HORIZONTAL);
+            flexToolbar.toolbarTitleCenter.setVisibility(VISIBLE);
+            flexToolbar.toolbarTitle.setVisibility(GONE);
         } else {
-            p.addRule(END_OF, flexToolbar.nav.getId());
-            p.removeRule(CENTER_HORIZONTAL);
+            flexToolbar.toolbarTitleCenter.setVisibility(GONE);
+            flexToolbar.toolbarTitle.setVisibility(VISIBLE);
         }
-        flexToolbar.toolbarTitle.setLayoutParams(p);
     }
 
     public void setDefaultToolbarTitleColor(@ColorInt int color) {
@@ -148,6 +137,7 @@ public class PageView extends RelativeLayout {
 
     public void setToolbarTitleColor(@ColorInt int color) {
         flexToolbar.toolbarTitle.setTextColor(color);
+        flexToolbar.toolbarTitleCenter.setTextColor(color);
     }
 
     public void setDefaultToolbarNavTint(@ColorInt int color) {
@@ -156,7 +146,11 @@ public class PageView extends RelativeLayout {
     }
 
     public void setToolbarNavTint(@ColorInt int color) {
-        flexToolbar.nav.setColorFilter(color);
+        Drawable d = flexToolbar.toolbar.getNavigationIcon();
+        if (d != null) {
+            d.setTint(color);
+            flexToolbar.toolbar.setNavigationIcon(d);
+        }
     }
 
     public void setDefaultToolbarTitleFont(@FontRes int font) {
@@ -169,28 +163,11 @@ public class PageView extends RelativeLayout {
             new Handler().post(() -> {
                 Typeface typeface = ResourcesCompat.getFont(getContext(), font);
                 flexToolbar.toolbarTitle.setTypeface(typeface);
+                flexToolbar.toolbarTitleCenter.setTypeface(typeface);
             });
         }
     }
 
-    public void setDefaultToolbarNavSize(int size) {
-        if (!a.hasValue(R.styleable.PageView_toolbarNavSize))
-            setToolbarNavSize(size);
-    }
-
-    public void setToolbarNavSize(int size) {
-        flexToolbar.nav.getLayoutParams().height = size;
-        flexToolbar.nav.getLayoutParams().width = size;
-    }
-
-    public void setDefaultToolbarNavPadding(int unit, float size) {
-        if (!a.hasValue(R.styleable.PageView_toolbarNavPadding))
-            setToolbarTitleSize(unit, size);
-    }
-
-    public void setToolbarNavPadding(int padding) {
-        flexToolbar.nav.setPadding(padding, padding, padding, padding);
-    }
 
     public void setDefaultToolbarTitleSize(int unit, float size) {
         if (!a.hasValue(R.styleable.PageView_toolbarTitleSize))
@@ -199,6 +176,7 @@ public class PageView extends RelativeLayout {
 
     public void setToolbarTitleSize(int unit, float size) {
         flexToolbar.toolbarTitle.setTextSize(unit, size);
+        flexToolbar.toolbarTitleCenter.setTextSize(unit, size);
     }
 
     public void setDefaultToolbarNavIcon(@DrawableRes int res) {
@@ -207,21 +185,11 @@ public class PageView extends RelativeLayout {
     }
 
     public void setToolbarNavIcon(@DrawableRes int res) {
-        if (res == android.R.color.transparent)
-            flexToolbar.nav.setVisibility(GONE);
-        else
-            flexToolbar.nav.setVisibility(VISIBLE);
-        flexToolbar.nav.setImageResource(res);
-    }
-
-    public void setDefaultToolbarNavBackground(@DrawableRes int res) {
-        if (!a.hasValue(R.styleable.PageView_toolbarNavBackground)) {
-            setToolbarNavBackground(res);
-        }
-    }
-
-    public void setToolbarNavBackground(@DrawableRes int res) {
-        flexToolbar.nav.setBackgroundResource(res);
+        flexToolbar.toolbar.setNavigationIcon(res);
+//        if (res == android.R.color.transparent)
+//            flexToolbar.nav.setVisibility(GONE);
+//        else
+//            flexToolbar.nav.setVisibility(VISIBLE);
     }
 
     public void setDefaultToolbarNavClick(int navClick) {
@@ -231,21 +199,22 @@ public class PageView extends RelativeLayout {
 
     public void setToolbarNavClick(int navClick) {
         if (navClick == MaterialConstants.TOOLBAR_NAV_CLICK_FINISH)
-            flexToolbar.nav.setOnClickListener(v -> ((Activity) getContext()).finish());
-        else flexToolbar.nav.setOnClickListener(null);
+            flexToolbar.toolbar.setNavigationOnClickListener(v -> ((Activity) getContext()).finish());
+        else flexToolbar.toolbar.setNavigationOnClickListener(null);
     }
 
     public void setToolbarNavClick(OnClickListener onClickListener) {
-        flexToolbar.nav.setOnClickListener(onClickListener);
+        flexToolbar.toolbar.setNavigationOnClickListener(onClickListener);
     }
 
     public void setDefaultToolbarTitle(String title) {
         if (!a.hasValue(R.styleable.PageView_toolbarTitle))
-            flexToolbar.toolbarTitle.setText(title);
+            setToolbarTitle(title);
     }
 
     public void setToolbarTitle(String title) {
         flexToolbar.toolbarTitle.setText(title);
+        flexToolbar.toolbarTitleCenter.setText(title);
     }
 
     public void setDefaultToolbarHeight(int height) {

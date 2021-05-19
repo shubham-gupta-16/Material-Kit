@@ -1,84 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.shubhamgupta16.materialkit.PageView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pageView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:toolbarBackground="@color/white"
-    app:toolbarNavClick="none"
-    app:toolbarNavIcon="@drawable/ic_baseline_arrow_back_24"
-    app:toolbarNavPadding="3dp"
-    app:toolbarHeight="80dp"
-    app:toolbarNavSize="30dp"
-    app:toolbarNavTint="@color/black"
-    app:toolbarShadowHeight="15dp"
-    app:toolbarShadowColor="#10002266"
-    app:toolbarTitle="Hello"
-    app:toolbarTitleColor="@color/black"
-    app:toolbarTitleFont="@font/tjb"
-    app:toolbarTitlePosition="start"
-    app:toolbarTitleSize="20sp"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <com.shubhamgupta16.materialkit.ProductView
-        android:id="@+id/productView"
+    <com.shubhamgupta16.materialkit.PageView
+        android:id="@+id/pageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:toolbarBackground="@color/appBackground"
+        app:toolbarHeight="55dp"
+        app:toolbarNavClick="none"
+        app:toolbarNavIcon="@drawable/ic_baseline_arrow_back_24"
+        app:toolbarNavTint="@color/textColor"
+        app:toolbarShadowColor="#10002266"
+        app:toolbarShadowHeight="15dp"
+        app:toolbarTitle="Hello"
+        app:toolbarTitleColor="@color/textColor"
+        app:toolbarTitleFont="@font/tjb"
+        app:toolbarTitlePosition="center"
+        app:toolbarTitleSize="20sp"
+        tools:context=".MainActivity">
 
-    <com.shubhamgupta16.materialkit.TextInputView
-        android:id="@+id/textInputView"
-        android:layout_marginTop="20dp"
-        android:hint="Mobile"
+
+    </com.shubhamgupta16.materialkit.PageView>
+
+    <ImageButton
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentEnd="true"
+        android:background="@null"
+        android:onClick="searchButtonClick"
+        android:tint="@color/textColor"
+        android:src="@drawable/ic_baseline_search_24" />
+
+    <LinearLayout
+        android:visibility="invisible"
+        android:id="@+id/searchLayout"
+        android:elevation="10dp"
+        android:background="@color/appBackground"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="400dp"
+        android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.shubhamgupta16.materialkit.KitSearchView
+            android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:fontFamily="@font/tjb"
-            android:inputType="textMultiLine"
-            android:maxLength="10" />
-    </com.shubhamgupta16.materialkit.TextInputView>
+            app:backButtonTint="@color/textColor"
+            app:clearButtonTint="@color/textColor"
+            android:hint="Search Here..."
+            app:backButtonIcon="@drawable/ic_baseline_arrow_back_24" />
 
-    <!--<com.shubhamgupta16.materialkit.LinearScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey" />
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="50dp"
-        android:text="ScrollPageView"
-        android:textSize="20sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="50dp"
-        android:text="Created By Shubham Gupta" />
-
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_margin="50dp"
-        android:background="@color/purple_200" />
-
-
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="400dp"
-        android:layout_margin="50dp"
-        android:background="@color/purple_200" />
-    </com.shubhamgupta16.materialkit.LinearScrollView>-->
-
-    <!--<include layout="@layout/loading_layout"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"/>-->
-
-</com.shubhamgupta16.materialkit.PageView>
-
+        <com.shubhamgupta16.materialkit.KitSuggestionView
+            android:id="@+id/suggestionView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</RelativeLayout>
