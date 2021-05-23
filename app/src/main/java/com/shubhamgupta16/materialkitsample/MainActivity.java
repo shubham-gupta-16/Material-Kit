@@ -2,15 +2,18 @@ package com.shubhamgupta16.materialkitsample;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.shubhamgupta16.materialkit.KitSuggestionView;
 import com.shubhamgupta16.materialkit.KitSearchView;
+import com.shubhamgupta16.materialkit.PageView;
 import com.shubhamgupta16.materialkit.UtilsKit;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,15 +21,25 @@ public class MainActivity extends AppCompatActivity {
     private KitSearchView searchView;
     private KitSuggestionView suggestionView;
     private View searchLayout;
+    private PageView pageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        pageView = findViewById(R.id.pageView);
         searchLayout = findViewById(R.id.searchLayout);
         searchView = findViewById(R.id.searchView);
         suggestionView = findViewById(R.id.suggestionView);
+
+        pageView.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.actionSearch){
+                UtilsKit.circleReveal(searchLayout, true, searchView.getMeasuredWidth() - searchView.getMeasuredHeight() / 2, searchView.getMeasuredHeight() / 2);
+                UtilsKit.showKeyboard(MainActivity.this, searchView);
+            }
+            return false;
+        });
 
 //        Search View
         searchView.setOnBackClickListener(new View.OnClickListener() {
@@ -81,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void searchButtonClick(View view) {
-        UtilsKit.circleReveal(searchLayout, true, searchView.getMeasuredWidth() - searchView.getMeasuredHeight() / 2, searchView.getMeasuredHeight() / 2);
-        UtilsKit.showKeyboard(this, searchView);
-    }
+//    public void searchButtonClick(View view) {
+//        UtilsKit.circleReveal(searchLayout, true, searchView.getMeasuredWidth() - searchView.getMeasuredHeight() / 2, searchView.getMeasuredHeight() / 2);
+//        UtilsKit.showKeyboard(this, searchView);
+//    }
 }

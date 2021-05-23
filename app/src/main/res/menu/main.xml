@@ -5,4 +5,8 @@
         android:title="@android:string/search_go"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_baseline_search_24"/>
+
+    <item android:id="@+id/action_bar_spinner"
+        android:title="@android:string/search_go"
+        app:showAsAction="ifRoom"/>
 </menu>

@@ -6,12 +6,10 @@
 
     <ImageButton
         android:id="@+id/backButton"
-        android:layout_width="55dp"
+        android:layout_width="@dimen/actionBarHeight"
         android:layout_height="55dp"
-        android:clickable="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_kit_search_back_24"
-        android:focusable="true" />
+        android:background="@drawable/icon_ripple"
+        android:src="@drawable/ic_kit_arrow_back_24"/>
 
     <EditText
         android:hint="Search..."
@@ -23,7 +21,6 @@
         android:maxLines="1"
         android:imeOptions="actionSearch"
         android:background="@android:color/transparent"
-        android:clickable="false"
         android:inputType="text" />
 
     <ImageButton
@@ -31,7 +28,7 @@
         android:id="@+id/closeButton"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_kit_search_close_24" />
+        android:background="@drawable/icon_ripple"
+        android:src="@drawable/ic_kit_close_24" />
 
 </LinearLayout>

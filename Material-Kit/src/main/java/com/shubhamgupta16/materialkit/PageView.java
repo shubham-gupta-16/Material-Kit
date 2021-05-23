@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -20,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.FontRes;
+import androidx.annotation.MenuRes;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -43,9 +43,7 @@ public class PageView extends RelativeLayout {
 
     private void _setupLinearLayout() {
         flexToolbar = new FlexToolbar(getContext());
-        TypedValue outValue = new TypedValue();
-        getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, outValue, true);
-        flexToolbar.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(outValue.resourceId)));
+        flexToolbar.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.actionBarHeight)));
         flexToolbar.setId(android.R.id.navigationBarBackground);
 
         relativeLayout = new RelativeLayout(getContext());
@@ -83,8 +81,13 @@ public class PageView extends RelativeLayout {
             setToolbarHeight(a.getDimensionPixelSize(R.styleable.PageView_toolbarHeight, 0));
         if (a.hasValue(R.styleable.PageView_toolbarTitleColor))
             setToolbarTitleColor(a.getColor(R.styleable.PageView_toolbarTitleColor, Color.WHITE));
+        if (a.hasValue(R.styleable.PageView_toolbarMenu))
+            setMenuItems(a.getResourceId(R.styleable.PageView_toolbarMenu, 0));
         if (a.hasValue(R.styleable.PageView_toolbarNavTint))
             setToolbarNavTint(a.getColor(R.styleable.PageView_toolbarNavTint, Color.WHITE));
+        if (a.hasValue(R.styleable.PageView_toolbarMenuTint)){
+            setToolbarMenuTint(a.getColor(R.styleable.PageView_toolbarMenuTint, Color.WHITE));
+        }
 
         int color = a.getColor(R.styleable.PageView_toolbarShadowColor, 0x10000000);
         View view = new View(getContext());
@@ -101,6 +104,10 @@ public class PageView extends RelativeLayout {
         view.setBackground(gd);
         layout.addView(view);
 
+    }
+
+    private void setToolbarMenuTint(int color) {
+        flexToolbar.setToolbarMenuTint(color);
     }
 
     @Override
@@ -122,11 +129,9 @@ public class PageView extends RelativeLayout {
 
     public void setToolbarTitlePosition(int position) {
         if (position == MaterialConstants.TOOLBAR_TITLE_CENTER) {
-            flexToolbar.toolbarTitleCenter.setVisibility(VISIBLE);
-            flexToolbar.toolbarTitle.setVisibility(GONE);
+            flexToolbar.toolbarTitle.setGravity(Gravity.CENTER);
         } else {
-            flexToolbar.toolbarTitleCenter.setVisibility(GONE);
-            flexToolbar.toolbarTitle.setVisibility(VISIBLE);
+            flexToolbar.toolbarTitle.setGravity(Gravity.LEFT);
         }
     }
 
@@ -137,7 +142,6 @@ public class PageView extends RelativeLayout {
 
     public void setToolbarTitleColor(@ColorInt int color) {
         flexToolbar.toolbarTitle.setTextColor(color);
-        flexToolbar.toolbarTitleCenter.setTextColor(color);
     }
 
     public void setDefaultToolbarNavTint(@ColorInt int color) {
@@ -146,11 +150,7 @@ public class PageView extends RelativeLayout {
     }
 
     public void setToolbarNavTint(@ColorInt int color) {
-        Drawable d = flexToolbar.toolbar.getNavigationIcon();
-        if (d != null) {
-            d.setTint(color);
-            flexToolbar.toolbar.setNavigationIcon(d);
-        }
+        flexToolbar.nav.setColorFilter(color);
     }
 
     public void setDefaultToolbarTitleFont(@FontRes int font) {
@@ -163,7 +163,6 @@ public class PageView extends RelativeLayout {
             new Handler().post(() -> {
                 Typeface typeface = ResourcesCompat.getFont(getContext(), font);
                 flexToolbar.toolbarTitle.setTypeface(typeface);
-                flexToolbar.toolbarTitleCenter.setTypeface(typeface);
             });
         }
     }
@@ -176,7 +175,6 @@ public class PageView extends RelativeLayout {
 
     public void setToolbarTitleSize(int unit, float size) {
         flexToolbar.toolbarTitle.setTextSize(unit, size);
-        flexToolbar.toolbarTitleCenter.setTextSize(unit, size);
     }
 
     public void setDefaultToolbarNavIcon(@DrawableRes int res) {
@@ -185,7 +183,15 @@ public class PageView extends RelativeLayout {
     }
 
     public void setToolbarNavIcon(@DrawableRes int res) {
-        flexToolbar.toolbar.setNavigationIcon(res);
+        flexToolbar.nav.setImageResource(res);
+        if (res == android.R.color.transparent) {
+            flexToolbar.nav.setVisibility(GONE);
+            flexToolbar.toolbarTitle.setPadding(0, 0, 0, 0);
+        } else {
+            if (!flexToolbar.hasMenuItems())
+                flexToolbar.toolbarTitle.setPadding(0, 0, getResources().getDimensionPixelSize(R.dimen.actionBarHeight), 0);
+            flexToolbar.nav.setVisibility(VISIBLE);
+        }
 //        if (res == android.R.color.transparent)
 //            flexToolbar.nav.setVisibility(GONE);
 //        else
@@ -199,12 +205,12 @@ public class PageView extends RelativeLayout {
 
     public void setToolbarNavClick(int navClick) {
         if (navClick == MaterialConstants.TOOLBAR_NAV_CLICK_FINISH)
-            flexToolbar.toolbar.setNavigationOnClickListener(v -> ((Activity) getContext()).finish());
-        else flexToolbar.toolbar.setNavigationOnClickListener(null);
+            flexToolbar.nav.setOnClickListener(v -> ((Activity) getContext()).finish());
+        else flexToolbar.nav.setOnClickListener(null);
     }
 
     public void setToolbarNavClick(OnClickListener onClickListener) {
-        flexToolbar.toolbar.setNavigationOnClickListener(onClickListener);
+        flexToolbar.nav.setOnClickListener(onClickListener);
     }
 
     public void setDefaultToolbarTitle(String title) {
@@ -214,7 +220,6 @@ public class PageView extends RelativeLayout {
 
     public void setToolbarTitle(String title) {
         flexToolbar.toolbarTitle.setText(title);
-        flexToolbar.toolbarTitleCenter.setText(title);
     }
 
     public void setDefaultToolbarHeight(int height) {
@@ -240,7 +245,11 @@ public class PageView extends RelativeLayout {
         return flexToolbar.toolbarTitle.getText().toString();
     }
 
-    public Toolbar getToolbar() {
-        return flexToolbar.toolbar;
+    public void setMenuItems(@MenuRes int menuRes) {
+        flexToolbar.setMenuItems(menuRes);
+    }
+
+    public void setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener onMenuItemClickListener){
+        flexToolbar.onMenuItemClickListener = onMenuItemClickListener;
     }
 }
