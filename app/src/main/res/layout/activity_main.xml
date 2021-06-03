@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    tools:context=".MainActivity"
     android:layout_height="match_parent">
 
     <com.shubhamgupta16.materialkit.PageView
@@ -11,18 +12,42 @@
         android:layout_height="match_parent"
         app:toolbarBackground="@color/appBackground"
         app:toolbarNavClick="none"
-        app:toolbarNavIcon="@drawable/ic_kit_arrow_back_24"
-        app:toolbarMenuTint="@color/textColor"
+        app:toolbarNavIcon="@drawable/ic_kit_ios_back_24"
         app:toolbarNavTint="@color/textColor"
         app:toolbarShadowColor="#10002266"
         app:toolbarShadowHeight="15dp"
-        app:toolbarTitle="Hello"
+        app:toolbarTitle="Material Kit"
         app:toolbarMenu="@menu/main"
+        app:toolbarMenuBadgeBackgroundColor="#ffbb00"
+        app:toolbarMenuBadgeTextColor="@color/textColor"
+        app:toolbarMenuTint="@color/textColor"
         app:toolbarTitleColor="@color/textColor"
         app:toolbarTitleFont="@font/tjb"
-        app:toolbarTitlePosition="center"
-        app:toolbarTitleSize="20sp"
+        app:toolbarTitlePosition="start"
+        app:toolbarTitleSize="17sp"
         tools:context=".MainActivity">
+
+
+        <com.shubhamgupta16.materialkit.LinearScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:layout_gravity="center"
+                android:onClick="addBadge"
+                android:layout_marginTop="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Badge"/>
+
+            <Button
+                android:layout_gravity="center"
+                android:onClick="removeAllBadge"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remove All Badge"/>
+
+        </com.shubhamgupta16.materialkit.LinearScrollView>
 
 
     </com.shubhamgupta16.materialkit.PageView>
@@ -42,27 +67,31 @@
         android:elevation="10dp"
         android:background="@color/appBackground"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.shubhamgupta16.materialkit.KitSearchView
+        <com.shubhamgupta16.materialkit.SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/tjb"
+            android:fontFamily="@font/mont_med"
             app:backButtonTint="@color/textColor"
             app:clearButtonTint="@color/textColor"
+            app:micButtonTint="@color/textColor"
+            app:micEnabled="true"
             android:hint="Search Here..."
-            app:backButtonIcon="@drawable/ic_baseline_arrow_back_24" />
+            app:backButtonIcon="@drawable/ic_kit_ios_back_24" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/grey" />
 
-        <com.shubhamgupta16.materialkit.KitSuggestionView
+        <com.shubhamgupta16.materialkit.SuggestionView
             android:id="@+id/suggestionView"
-            app:itemFontFamily="@font/tjb"
+            android:fontFamily="@font/mont_med"
+            app:itemDivider="false"
+            app:iconTint="@color/textColor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>

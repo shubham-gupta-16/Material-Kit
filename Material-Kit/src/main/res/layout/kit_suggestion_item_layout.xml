@@ -28,8 +28,8 @@
     <ImageButton
         android:id="@+id/button1"
         android:layout_width="55dp"
-        android:background="@drawable/icon_ripple"
+        android:background="@drawable/kit_icon_ripple"
         android:layout_height="55dp"
-        android:src="@drawable/ic_kit_import_24" />
+        android:src="@drawable/ic_kit_copy_24" />
 
 </LinearLayout>

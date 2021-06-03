@@ -2,16 +2,16 @@ package com.shubhamgupta16.materialkit;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+
+import androidx.core.widget.NestedScrollView;
 
 public class LinearScrollView extends LinearLayout {
 
     public LinearLayout linearLayout;
-    public ScrollView layout;
+    public NestedScrollView layout;
 
     public LinearScrollView(Context context) {
         this(context, null);
@@ -32,7 +32,7 @@ public class LinearScrollView extends LinearLayout {
 
     private void _setupScrollView() {
         if (layout == null) {
-            layout = new ScrollView(getContext());
+            layout = new NestedScrollView(getContext());
             layout.setId(android.R.id.candidatesArea);
             layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             linearLayout = new LinearLayout(getContext());

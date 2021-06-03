@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="KitSearchView">
+    <declare-styleable name="SearchView">
         <attr name="android:fontFamily" format="reference" />
         <attr name="android:hint" format="string" />
         <attr name="android:maxLength" format="integer" />
         <attr name="android:textColor" format="color" />
         <attr name="android:textSize" format="dimension" />
-        <attr name="hintTextColor" format="color" />
-        <attr name="backButtonTint" format="color" />
-        <attr name="clearButtonTint" format="color" />
-        <attr name="backButtonIcon" format="reference" />
-        <attr name="clearButtonIcon" format="reference" />
         <attr name="android:inputType" format="enum"/>
+        <attr name="hintTextColor" format="color" />
+<!--        buttons-->
+        <attr name="backButtonIcon" format="reference" />
+        <attr name="backButtonTint" format="color" />
+        <attr name="clearButtonIcon" format="reference" />
+        <attr name="clearButtonTint" format="color" />
+        <attr name="micButtonIcon" format="reference" />
+        <attr name="micButtonTint" format="color" />
+        <attr name="micEnabled" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="KitSuggestionView">
-        <attr name="itemFontFamily" format="reference" />
+    <declare-styleable name="SuggestionView">
+        <attr name="android:fontFamily" format="reference" />
+        <attr name="itemDivider" format="boolean" />
+        <attr name="itemBackground" format="reference" />
+        <attr name="historyIcon" format="reference" />
+        <attr name="suggestionIcon" format="reference" />
+        <attr name="copyIcon" format="reference" />
+        <attr name="iconTint" format="color" />
     </declare-styleable>
 
     <declare-styleable name="PageView">
@@ -34,6 +44,9 @@
         <attr name="toolbarNavIcon" format="reference" />
         <attr name="toolbarNavTint" format="color" />
         <attr name="toolbarMenuTint" format="color" />
+
+        <attr name="toolbarMenuBadgeBackgroundColor" format="color" />
+        <attr name="toolbarMenuBadgeTextColor" format="color" />
 
         <attr name="toolbarNavClick" format="enum">
             <enum name="finish" value="1" />

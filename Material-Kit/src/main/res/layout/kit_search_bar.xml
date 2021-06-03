@@ -8,7 +8,7 @@
         android:id="@+id/backButton"
         android:layout_width="@dimen/actionBarHeight"
         android:layout_height="55dp"
-        android:background="@drawable/icon_ripple"
+        android:background="@drawable/kit_icon_ripple"
         android:src="@drawable/ic_kit_arrow_back_24"/>
 
     <EditText
@@ -28,7 +28,14 @@
         android:id="@+id/closeButton"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:background="@drawable/icon_ripple"
+        android:background="@drawable/kit_icon_ripple"
         android:src="@drawable/ic_kit_close_24" />
+
+    <ImageButton
+        android:id="@+id/micButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:background="@drawable/kit_icon_ripple"
+        android:src="@drawable/ic_kit_mic_24" />
 
 </LinearLayout>

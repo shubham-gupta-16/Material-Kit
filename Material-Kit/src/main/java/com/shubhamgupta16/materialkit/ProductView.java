@@ -164,20 +164,20 @@ public class ProductView extends RelativeLayout {
     }
 
     public void fetchStart(){
-        UtilsKit.fadeVisibleView(loadingView);
+        AnimUtils.fadeVisibleView(loadingView);
     }
 
     public void dataFetched(boolean isFetched, int maxPage, int page) {
-        UtilsKit.fadeHideView(loadingView);
+        AnimUtils.fadeHideView(loadingView);
         handlePage.dataFetched(isFetched, maxPage, page);
 
         if (page == 1 && !isFetched)
             showNoResLayout();
         else
-            UtilsKit.fadeHideView(noResView);
+            AnimUtils.fadeHideView(noResView);
     }
     public void showNoResLayout(){
-        UtilsKit.fadeVisibleView(noResView);
+        AnimUtils.fadeVisibleView(noResView);
     }
 
     public void reset(){
@@ -185,6 +185,4 @@ public class ProductView extends RelativeLayout {
 //        loadingView.setVisibility(VISIBLE);
         noResView.setVisibility(GONE);
     }
-
-
 }

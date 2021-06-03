@@ -4,9 +4,16 @@
     <item android:id="@+id/actionSearch"
         android:title="@android:string/search_go"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_baseline_search_24"/>
+        android:icon="@drawable/ic_kit_search_24"/>
 
-    <item android:id="@+id/action_bar_spinner"
-        android:title="@android:string/search_go"
+
+    <item android:id="@+id/micSearch"
+        android:title="Voice Search"
+        android:icon="@drawable/ic_kit_mic_24"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/actionCart"
+        android:title="Cart"
+        android:icon="@drawable/ic_baseline_shopping_cart_24"
         app:showAsAction="ifRoom"/>
 </menu>
