@@ -7,7 +7,7 @@
 ### Add the dependency
 ```
 dependencies {
-    implementation 'com.github.shubham-gupta-16:Material-Kit:1.1.5'
+    implementation 'com.github.shubham-gupta-16:Material-Kit:1.1.6'
 }
 ```
 
