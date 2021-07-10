@@ -29,6 +29,51 @@
         <attr name="iconTint" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="_TitleFrameView">
+        <attr name="title" format="string" />
+        <attr name="titleFontFamily" format="reference" />
+        <attr name="errorFontFamily" format="reference" />
+        <attr name="titleTextSize" format="dimension" />
+        <attr name="errorTextSize" format="dimension" />
+        <attr name="titleTextColor" format="color" />
+        <attr name="errorTextColor" format="color" />
+        <attr name="titleBottomGap" format="dimension" />
+        <attr name="horizontalGap" format="dimension" />
+        <attr name="hideTitle" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="InputView">
+        <attr name="inputHint" format="string"/>
+        <attr name="inputFontFamily" format="reference" />
+        <attr name="inputBackground" format="reference" />
+        <attr name="inputErrorBackground" format="reference" />
+        <attr name="inputHorizontalPadding" format="dimension" />
+        <attr name="inputVerticalPadding" format="dimension" />
+        <attr name="inputTextSize" format="dimension" />
+        <attr name="clearErrorOnInput" format="boolean" />
+        <attr name="inputTextColor" format="color" />
+        <attr name="inputHintTextColor" format="color" />
+        <attr name="android:gravity"/>
+        <attr name="android:imeOptions"/>
+        <attr name="android:inputType"/>
+        <attr name="android:maxLines"/>
+        <attr name="android:maxLength"/>
+        <attr name="android:minLines"/>
+        <attr name="android:lines"/>
+    </declare-styleable>
+
+    <declare-styleable name="RadioScrollView">
+        <attr name="radioFontFamily" format="reference" />
+        <attr name="radioBackground" format="reference" />
+        <attr name="radioHorizontalPadding" format="dimension" />
+        <attr name="radioVerticalPadding" format="dimension" />
+        <attr name="radioTextSize" format="dimension" />
+        <attr name="radioTextColor" format="color" />
+        <attr name="radioGap" format="dimension" />
+        <attr name="showRadioButton" format="boolean"/>
+        <attr name="android:entries"/>
+    </declare-styleable>
+
     <declare-styleable name="PageView">
         <attr name="toolbarBackground" format="reference" />
         <attr name="toolbarHeight" format="dimension" />

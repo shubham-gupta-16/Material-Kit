@@ -1,8 +1,10 @@
 package com.shubhamgupta16.materialkit;
 
+import android.content.ContentValues;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -17,6 +19,7 @@ import androidx.annotation.FontRes;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RadioScrollView extends _TitleFrameView {
@@ -41,14 +44,17 @@ public class RadioScrollView extends _TitleFrameView {
     private int radioHorizontalPadding, radioVerticalGap, radioTextColor;
     private float radioTextSize;
     private OnCheckedChangeListener onCheckedChangeListener;
+    private boolean showButton;
+    private Drawable defaultRadioDrawable;
 
     public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
         this.onCheckedChangeListener = onCheckedChangeListener;
     }
 
+
     @Override
-    protected void init() {
-        super.init();
+    void buildViews() {
+        super.buildViews();
 //        HorizontalScrollView
         HorizontalScrollView hor = new HorizontalScrollView(getContext());
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -63,12 +69,12 @@ public class RadioScrollView extends _TitleFrameView {
         group.setOrientation(HORIZONTAL);
         hor.addView(group);
 
-        setRadioHorizontalPadding((int) UtilsKit.dpToPx(20, getContext()));
+        /*setRadioHorizontalPadding((int) UtilsKit.dpToPx(20, getContext()));
         setRadioVerticalGap((int) UtilsKit.dpToPx(10, getContext()));
         setRadioGap((int) UtilsKit.dpToPx(10, getContext()));
         setRadioBackground(R.drawable.kit_radio_round);
         setRadioTextColor(Color.BLACK);
-        setRadioTextSize(UtilsKit.dpToPx(14, getContext()));
+        setRadioTextSize(UtilsKit.dpToPx(14, getContext()));*/
 
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -80,9 +86,56 @@ public class RadioScrollView extends _TitleFrameView {
         });
     }
 
+
     @Override
-    public void setHorizontalPadding(int horizontalPadding) {
-        super.setHorizontalPadding(horizontalPadding);
+    ContentValues initialize(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        ContentValues contentValues = super.initialize(context, attrs, defStyleAttr);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RadioScrollView, defStyleAttr, 0);
+        if (a.hasValue(R.styleable.RadioScrollView_radioFontFamily))
+            contentValues.put("radioFontFamily", a.getResourceId(R.styleable.RadioScrollView_radioFontFamily, 0));
+
+//        customs
+        contentValues.put("radioBackground", a.getResourceId(R.styleable.RadioScrollView_radioBackground, 0));
+        contentValues.put("radioHorizontalPadding", a.getDimensionPixelSize(R.styleable.RadioScrollView_radioHorizontalPadding, 0));
+        contentValues.put("radioVerticalPadding", a.getDimensionPixelSize(R.styleable.RadioScrollView_radioVerticalPadding, 0));
+        contentValues.put("radioTextSize", a.getDimensionPixelSize(R.styleable.RadioScrollView_radioTextSize, UtilsKit.idpToPx(15, getContext())));
+        contentValues.put("radioTextColor", a.getColor(R.styleable.RadioScrollView_radioTextColor, getResources().getColor(R.color.kitTextSecondary)));
+        contentValues.put("radioGap", a.getDimensionPixelSize(R.styleable.RadioScrollView_radioGap, UtilsKit.idpToPx(10, getContext())));
+        showButton = a.getBoolean(R.styleable.RadioScrollView_showRadioButton, true);
+
+        if (a.hasValue(R.styleable.RadioScrollView_android_entries)) {
+            CharSequence[] e = a.getTextArray(R.styleable.RadioScrollView_android_entries);
+            List<String> strings = new ArrayList<>();
+            for (CharSequence c : e) {
+                strings.add(c.toString());
+            }
+            setList(strings);
+        }
+        a.recycle();
+        return contentValues;
+    }
+
+    @Override
+    protected void build(ContentValues contentValues) {
+        super.build(contentValues);
+        if (contentValues.containsKey("radioBackground"))
+            setRadioBackground(contentValues.getAsInteger("radioBackground"));
+        if (contentValues.containsKey("radioFontFamily"))
+            setRadioFont(contentValues.getAsInteger("radioFontFamily"));
+        setRadioHorizontalPadding(contentValues.getAsInteger("radioHorizontalPadding"));
+        setRadioVerticalGap(contentValues.getAsInteger("radioVerticalPadding"));
+        setRadioTextSize(contentValues.getAsInteger("radioTextSize"));
+        setRadioTextColor(contentValues.getAsInteger("radioTextColor"));
+        setRadioGap(contentValues.getAsInteger("radioGap"));
+    }
+
+
+    private int horizontalGap;
+
+    @Override
+    public void setHorizontalGap(int horizontalGap) {
+        super.setHorizontalGap(horizontalGap);
+        this.horizontalGap = horizontalGap;
         _updateRadioUI();
     }
 
@@ -127,9 +180,9 @@ public class RadioScrollView extends _TitleFrameView {
             rBtn.setPadding(radioHorizontalPadding, radioVerticalGap, radioHorizontalPadding, radioVerticalGap);
             LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             if (i == 0)
-                params.setMarginStart(horizontalPadding);
+                params.setMarginStart(horizontalGap);
             if (i == group.getChildCount() - 1)
-                params.setMarginEnd(horizontalPadding);
+                params.setMarginEnd(horizontalGap);
             else
                 params.setMarginEnd(radioGap);
             rBtn.setLayoutParams(params);
@@ -148,11 +201,12 @@ public class RadioScrollView extends _TitleFrameView {
         }
     }
 
-    private RadioButton _buildRadio(String text) {
+    protected RadioButton buildRadio(String text) {
         RadioButton button = new RadioButton(getContext());
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         button.setLayoutParams(params);
         button.setText(text);
+        if (!showButton)
         button.setButtonDrawable(null);
         return button;
     }
@@ -165,7 +219,7 @@ public class RadioScrollView extends _TitleFrameView {
     public void addList(List<String> strings) {
         if (strings == null) return;
         for (String text : strings) {
-            RadioButton button = _buildRadio(text);
+            RadioButton button = buildRadio(text);
             group.addView(button);
         }
         _updateRadioFullUI();
@@ -213,7 +267,7 @@ public class RadioScrollView extends _TitleFrameView {
         }
     }
 
-    public boolean hasChecked(){
+    public boolean hasChecked() {
         return getCheckedPosition() >= 0;
     }
 

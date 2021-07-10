@@ -3,4 +3,7 @@
     <color name="kitPrimary">#8A3BFA</color>
     <color name="kitSecondary">#C6A8FB</color>
     <color name="kitOutline">#d8ddf2</color>
+    <color name="kitTextPrimary">#000000</color>
+    <color name="kitTextSecondary">#333333</color>
+    <color name="kitError">#FF3535</color>
 </resources>

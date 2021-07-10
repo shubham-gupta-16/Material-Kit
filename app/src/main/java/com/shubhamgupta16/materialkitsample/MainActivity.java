@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.shubhamgupta16.materialkit.AnimUtils;
+import com.shubhamgupta16.materialkit.InputView;
 import com.shubhamgupta16.materialkit.SuggestionView;
 import com.shubhamgupta16.materialkit.SearchView;
 import com.shubhamgupta16.materialkit.PageView;
@@ -25,6 +28,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        InputView inputView = findViewById(R.id.inputView);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (inputView.getText().isEmpty())
+                    inputView.setError("Timeout");
+            }
+        }, 2000);
 
         pageView = findViewById(R.id.pageView);
         searchLayout = findViewById(R.id.searchLayout);
@@ -44,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnBackButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AnimUtils.circleUnReveal(searchLayout,  searchView.getMeasuredWidth() - (int) UtilsKit.dpToPx(105, MainActivity.this), searchView.getMeasuredHeight() / 2).setDuration(400).start();;
+                AnimUtils.circleUnReveal(searchLayout, searchView.getMeasuredWidth() - (int) UtilsKit.dpToPx(105, MainActivity.this), searchView.getMeasuredHeight() / 2).setDuration(400).start();
+                ;
                 UtilsKit.hideKeyboard(MainActivity.this);
             }
         });
@@ -105,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void removeAllBadge(View view) {
         pageView.setMenuBadge(R.id.actionCart, badge = 0, true);
+    }
+
+    private void addInputView() {
     }
 
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="radios">
+        <item>Alpha</item>
+        <item>Beta</item>
+        <item>Gama</item>
+        <item>Hello</item>
+        <item>Delta</item>
+        <item>World</item>
+        <item>Stack</item>
+        <item>Hub</item>
+        <item>Blender</item>
+        <item>Lorem</item>
+        <item>Studio</item>
+    </string-array>
+</resources>

@@ -30,6 +30,8 @@ public class LinearScrollView extends LinearLayout {
         _setupScrollView();
     }
 
+
+
     private void _setupScrollView() {
         if (layout == null) {
             layout = new NestedScrollView(getContext());

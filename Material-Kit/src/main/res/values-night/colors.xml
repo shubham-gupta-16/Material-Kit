@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="kitTextPrimary">#FFFFFF</color>
+    <color name="kitTextSecondary">#DDDDDD</color>
+    <color name="kitOutline">#44464C</color>
+</resources>
